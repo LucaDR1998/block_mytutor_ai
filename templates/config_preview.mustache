@@ -1,0 +1,75 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template block_mytutor_ai/config_preview
+
+    Live preview panel for the chat personalization admin settings.
+
+    Context variables required for this template:
+    * avatars - Array of built-in avatar objects with num and url
+
+    Example context (json):
+    {
+        "avatars": [
+            {"num": "01", "url": "/blocks/mytutor_ai/pix/avatars/avatar_01.png"},
+            {"num": "02", "url": "/blocks/mytutor_ai/pix/avatars/avatar_02.png"}
+        ]
+    }
+}}
+<div id="mytutor-ai-config-preview"
+     class="block_mytutor_ai mytutor-ai-config-preview"
+     {{#avatars}}
+     data-avatar{{num}}="{{url}}"
+     {{/avatars}}>
+    <div class="block-mytutor-ai-chat" style="padding: 0.75rem; border-radius: 0.75rem;">
+        {{! Chat header with avatar and tutor name }}
+        <div class="mytutor-ai-header" data-region="preview-header" style="display:none;">
+            <img class="mytutor-ai-header-avatar"
+                 data-region="preview-header-avatar"
+                 src=""
+                 alt="{{#str}} assistantlabel, block_mytutor_ai {{/str}}" />
+            <span class="mytutor-ai-header-name"
+                  data-region="preview-header-name">{{#str}} assistantlabel, block_mytutor_ai {{/str}}</span>
+        </div>
+        <div class="mytutor-ai-messages" style="max-height: none; overflow: visible;">
+            {{! Empty state / welcome message }}
+            <div class="mytutor-ai-empty" data-region="preview-empty">
+                <span data-region="preview-welcome">{{#str}} welcomemessage_default, block_mytutor_ai {{/str}}</span>
+            </div>
+
+            {{! Sample user message }}
+            <div class="mytutor-ai-message mytutor-ai-message-user">
+                <div class="mytutor-ai-message-meta">{{#str}} userlabel, block_mytutor_ai {{/str}}</div>
+                <div class="mytutor-ai-message-body">{{#str}} previewusermsg, block_mytutor_ai {{/str}}</div>
+            </div>
+
+            {{! Sample assistant message with avatar slot }}
+            <div class="mytutor-ai-message-assistant-row" data-region="preview-assistant-row">
+                <img data-region="preview-avatar"
+                     class="mytutor-ai-avatar"
+                     src=""
+                     alt="{{#str}} assistantlabel, block_mytutor_ai {{/str}}"
+                     style="display:none;" />
+                <div class="mytutor-ai-message mytutor-ai-message-assistant">
+                    <div class="mytutor-ai-message-meta"
+                         data-region="preview-assistant-label">{{#str}} assistantlabel, block_mytutor_ai {{/str}}</div>
+                    <div class="mytutor-ai-message-body">{{#str}} previewassistantmsg, block_mytutor_ai {{/str}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
