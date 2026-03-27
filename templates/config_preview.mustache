@@ -42,13 +42,21 @@
                  data-region="preview-header-avatar"
                  src=""
                  alt="{{#str}} assistantlabel, block_mytutor_ai {{/str}}" />
-            <span class="mytutor-ai-header-name"
-                  data-region="preview-header-name">{{#str}} assistantlabel, block_mytutor_ai {{/str}}</span>
+            <div class="mytutor-ai-header-info">
+                <span class="mytutor-ai-header-name"
+                      data-region="preview-header-name">{{#str}} assistantlabel, block_mytutor_ai {{/str}}</span>
+                <span class="mytutor-ai-header-caption"
+                      data-region="preview-header-caption"
+                      style="display:none;"></span>
+            </div>
         </div>
         <div class="mytutor-ai-messages" style="max-height: none; overflow: visible;">
             {{! Empty state / welcome message }}
             <div class="mytutor-ai-empty" data-region="preview-empty">
                 <span data-region="preview-welcome">{{#str}} welcomemessage_default, block_mytutor_ai {{/str}}</span>
+                <div class="mytutor-ai-quick-replies" data-region="preview-quick-replies">
+                    <button type="button" class="mytutor-ai-quick-reply">{{#str}} quickreplies_placeholder, block_mytutor_ai {{/str}}</button>
+                </div>
             </div>
 
             {{! Sample user message }}
@@ -70,6 +78,31 @@
                     <div class="mytutor-ai-message-body">{{#str}} previewassistantmsg, block_mytutor_ai {{/str}}</div>
                 </div>
             </div>
+        </div>
+        <div class="mytutor-ai-input">
+            <div class="mytutor-ai-composer">
+                <textarea class="form-control mytutor-ai-composer-textarea"
+                          placeholder="{{#str}} chatplaceholder, block_mytutor_ai {{/str}}"
+                          rows="2"
+                          disabled="disabled"></textarea>
+                <div class="mytutor-ai-composer-actions">
+                    <button type="button"
+                            class="mytutor-ai-send-btn"
+                            aria-label="{{#str}} sendbutton, block_mytutor_ai {{/str}}"
+                            title="{{#str}} sendbutton, block_mytutor_ai {{/str}}"
+                            disabled="disabled">
+                        <span class="mytutor-ai-send-btn-icon" aria-hidden="true">
+                            <svg viewBox="0 0 20 20" focusable="false">
+                                <path d="M10 14V6"></path>
+                                <path d="M6.5 9.5L10 6L13.5 9.5"></path>
+                            </svg>
+                        </span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="mytutor-ai-disclaimer" data-region="preview-disclaimer" style="display:none;">
+            {{#str}} previewdisclaimer, block_mytutor_ai {{/str}}
         </div>
     </div>
 </div>

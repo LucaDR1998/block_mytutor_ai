@@ -51,6 +51,12 @@ $keys = [
     'tutoravatar',
     'tutorname',
     'welcomemessage',
+    'themepreset',
+    'accent_color',
+    'chat_text_color',
+    'tutorcaption',
+    'quickreplies',
+    'disclaimer',
 ];
 
 $form = new \block_mytutor_ai\form\config_form($pageurl);
@@ -127,6 +133,5 @@ $chatconfigmessage = get_string('chatmanagedbycoreai', $component, (object) [
     ),
 ]);
 echo $OUTPUT->notification($chatconfigmessage, \core\output\notification::NOTIFY_INFO, false);
-
 $form->display();
 echo $OUTPUT->footer();

@@ -6,6 +6,16 @@
     border-radius: 0.75rem;
 }
 
+.block.block_mytutor_ai {
+    border-radius: 1.2rem;
+    overflow: hidden;
+}
+
+.block.block_mytutor_ai .content,
+.block.block_mytutor_ai .card-body {
+    padding-top: 0.25rem;
+}
+
 .block_mytutor_ai .mytutor-ai-messages {
     display: flex;
     flex-direction: column;
@@ -19,9 +29,11 @@
     padding: 0.9rem 1rem;
     border: 1px dashed rgba(15, 108, 191, 0.28);
     border-radius: 0.85rem;
-    background: #f7fbff;
-    color: #5d6b82;
+    background: var(--mytutor-assistant-bg, #f7fbff);
+    color: var(--mytutor-chat-text, #5d6b82);
     font-size: 0.92rem;
+    line-height: 1.45;
+    overflow-wrap: anywhere;
 }
 
 .block_mytutor_ai .mytutor-ai-message {
@@ -40,7 +52,7 @@
     align-self: flex-start;
     background: var(--mytutor-assistant-bg, #f7f9fc);
     border: 1px solid rgba(22, 33, 52, 0.08);
-    color: #162134;
+    color: var(--mytutor-chat-text, #162134);
 }
 
 .block_mytutor_ai .mytutor-ai-message.is-loading {
@@ -60,7 +72,8 @@
 }
 
 .block_mytutor_ai .mytutor-ai-message-assistant .mytutor-ai-message-meta {
-    color: #5d6b82;
+    color: var(--mytutor-chat-text, #5d6b82);
+    opacity: 0.7;
 }
 
 .block_mytutor_ai .mytutor-ai-message-body {
@@ -69,13 +82,127 @@
 }
 
 .block_mytutor_ai .mytutor-ai-input {
-    display: flex;
-    flex-direction: column;
+    margin-top: 0.2rem;
+    width: 100%;
 }
 
-.block_mytutor_ai .mytutor-ai-input textarea {
-    resize: vertical;
-    min-height: 3.25rem;
+.block_mytutor_ai .mytutor-ai-composer {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    padding: 1rem;
+    width: 100%;
+    min-width: 0;
+    border: 1px solid rgba(22, 33, 52, 0.1);
+    border-radius: 1.35rem;
+    background: #fff;
+    box-shadow: 0 14px 30px rgba(15, 23, 42, 0.08);
+}
+
+.block_mytutor_ai .mytutor-ai-composer:focus-within {
+    border-color: var(--mytutor-accent, #0f6cbf);
+    box-shadow: 0 18px 36px rgba(15, 23, 42, 0.11);
+}
+
+.block_mytutor_ai .mytutor-ai-composer-textarea.form-control,
+.block_mytutor_ai .mytutor-ai-composer-textarea {
+    display: block;
+    width: 100%;
+    resize: none;
+    min-height: 5.75rem;
+    padding: 0 3.9rem 0.25rem 0;
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+    color: var(--mytutor-chat-text, #162134);
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+.block_mytutor_ai .mytutor-ai-composer-textarea.form-control:focus,
+.block_mytutor_ai .mytutor-ai-composer-textarea:focus {
+    border: 0;
+    outline: 0;
+    background: transparent;
+    box-shadow: none;
+}
+
+.block_mytutor_ai .mytutor-ai-composer-textarea::placeholder {
+    color: rgba(93, 107, 130, 0.9);
+}
+
+.block_mytutor_ai .mytutor-ai-composer-actions {
+    position: absolute;
+    right: 0.95rem;
+    bottom: 0.95rem;
+    display: flex;
+}
+
+.block_mytutor_ai .mytutor-ai-send-btn {
+    appearance: none;
+    -webkit-appearance: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.9rem;
+    height: 2.9rem;
+    min-width: 2.9rem;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background-color: var(--mytutor-accent, #0f6cbf);
+    background-image: none;
+    color: #fff;
+    cursor: pointer;
+    box-shadow: 0 12px 22px rgba(15, 23, 42, 0.16);
+    transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease, opacity 0.18s ease,
+        background-color 0.18s ease;
+}
+
+.block_mytutor_ai .mytutor-ai-send-btn:not(:disabled):hover,
+.block_mytutor_ai .mytutor-ai-send-btn:not(:disabled):focus-visible {
+    color: #fff;
+    background-color: var(--mytutor-accent, #0f6cbf);
+    filter: brightness(1.08) saturate(1.02);
+    transform: translateY(-1px) scale(1.03);
+    box-shadow: 0 16px 28px rgba(15, 23, 42, 0.2);
+}
+
+.block_mytutor_ai .mytutor-ai-send-btn:focus {
+    outline: 0;
+}
+
+.block_mytutor_ai .mytutor-ai-send-btn:disabled {
+    opacity: 1;
+    cursor: not-allowed;
+    transform: none;
+    background-color: var(--mytutor-accent, #0f6cbf);
+    color: #fff;
+    box-shadow: 0 10px 18px rgba(15, 23, 42, 0.12);
+}
+
+.block_mytutor_ai .mytutor-ai-send-btn-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: transparent;
+    flex-shrink: 0;
+    line-height: 1;
+}
+
+.block_mytutor_ai .mytutor-ai-send-btn-icon svg {
+    width: 1.15rem;
+    height: 1.15rem;
+    display: block;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
 }
 
 /* Chat header with avatar and tutor name. */
@@ -98,7 +225,7 @@
 .block_mytutor_ai .mytutor-ai-header-name {
     font-size: 0.95rem;
     font-weight: 600;
-    color: #162134;
+    color: var(--mytutor-chat-text, #162134);
 }
 
 /* Avatar in assistant messages. */
@@ -147,9 +274,11 @@
     padding: 0.9rem 1rem;
     border: 1px dashed rgba(15, 108, 191, 0.28);
     border-radius: 0.85rem;
-    background: #f7fbff;
-    color: #5d6b82;
+    background: var(--mytutor-assistant-bg, #f7fbff);
+    color: var(--mytutor-chat-text, #5d6b82);
     font-size: 0.85rem;
+    line-height: 1.45;
+    overflow-wrap: anywhere;
 }
 
 .mytutor-ai-config-preview .mytutor-ai-message {
@@ -168,7 +297,7 @@
     align-self: flex-start;
     background: var(--mytutor-assistant-bg, #f7f9fc);
     border: 1px solid rgba(22, 33, 52, 0.08);
-    color: #162134;
+    color: var(--mytutor-chat-text, #162134);
 }
 
 .mytutor-ai-config-preview .mytutor-ai-message-meta {
@@ -184,13 +313,30 @@
 }
 
 .mytutor-ai-config-preview .mytutor-ai-message-assistant .mytutor-ai-message-meta {
-    color: #5d6b82;
+    color: var(--mytutor-chat-text, #5d6b82);
+    opacity: 0.7;
 }
 
 .mytutor-ai-config-preview .mytutor-ai-message-body {
     white-space: pre-wrap;
     word-break: break-word;
     font-size: 0.88rem;
+}
+
+.mytutor-ai-config-preview .mytutor-ai-input {
+    margin-top: 0.1rem;
+}
+
+.mytutor-ai-config-preview .mytutor-ai-composer-textarea:disabled {
+    opacity: 1;
+    -webkit-text-fill-color: var(--mytutor-chat-text, #162134);
+}
+
+.mytutor-ai-config-preview .mytutor-ai-send-btn:disabled {
+    opacity: 1;
+    cursor: default;
+    background-color: var(--mytutor-accent, #0f6cbf);
+    color: #fff;
 }
 
 .mytutor-ai-config-preview .mytutor-ai-header {
@@ -212,7 +358,7 @@
 .mytutor-ai-config-preview .mytutor-ai-header-name {
     font-size: 0.85rem;
     font-weight: 600;
-    color: #162134;
+    color: var(--mytutor-chat-text, #162134);
 }
 
 .mytutor-ai-config-preview .mytutor-ai-message-assistant-row {
@@ -230,4 +376,153 @@
     object-fit: cover;
     flex-shrink: 0;
     margin-top: 0.1rem;
+}
+
+/* Header info wrapper for name + caption. */
+.mytutor-ai-header-info {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.block_mytutor_ai .mytutor-ai-header-name,
+.mytutor-ai-config-preview .mytutor-ai-header-name,
+.mytutor-ai-header-caption,
+.mytutor-ai-disclaimer {
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+
+.block_mytutor_ai .mytutor-ai-header-name,
+.mytutor-ai-config-preview .mytutor-ai-header-name,
+.mytutor-ai-header-caption {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.block_mytutor_ai .mytutor-ai-header-name,
+.mytutor-ai-config-preview .mytutor-ai-header-name {
+    -webkit-line-clamp: 2;
+}
+
+.mytutor-ai-header-caption {
+    -webkit-line-clamp: 2;
+}
+
+/* Accent colour variable. */
+.block-mytutor-ai-chat .mytutor-ai-input .btn-primary {
+    background-color: var(--mytutor-accent, #0f6cbf);
+    border-color: var(--mytutor-accent, #0f6cbf);
+}
+
+.block-mytutor-ai-chat .mytutor-ai-input textarea:focus {
+    border-color: var(--mytutor-accent, #0f6cbf);
+    box-shadow: 0 0 0 0.2rem rgba(0, 0, 0, 0.1);
+}
+
+/* Tutor caption. */
+.mytutor-ai-header-caption {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    font-size: 0.75rem;
+    color: var(--mytutor-chat-text, #5d6b82);
+    opacity: 0.7;
+    line-height: 1.2;
+    margin-top: 0.1rem;
+    overflow: hidden;
+}
+
+/* Quick replies. */
+.mytutor-ai-quick-replies {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.75rem;
+}
+
+.mytutor-ai-quick-reply {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    flex: 0 1 10.5rem;
+    max-width: 100%;
+    background: transparent;
+    border: 1px solid var(--mytutor-accent, #0f6cbf);
+    color: var(--mytutor-accent, #0f6cbf);
+    border-radius: 1rem;
+    padding: 0.35rem 0.85rem;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+    line-height: 1.25;
+    white-space: normal;
+    text-align: center;
+    overflow: hidden;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+
+.mytutor-ai-quick-reply:hover {
+    background: var(--mytutor-accent, #0f6cbf);
+    color: #fff;
+}
+
+/* Disclaimer. */
+.mytutor-ai-disclaimer {
+    font-size: 0.72rem;
+    color: var(--mytutor-chat-text, #5d6b82);
+    opacity: 0.7;
+    text-align: center;
+    padding: 0.4rem 0.5rem 0;
+    line-height: 1.3;
+}
+
+#id_settingspersonalizationcontainer.collapse.show {
+    display: grid;
+    grid-template-columns: minmax(0, 62%) minmax(260px, 300px);
+    justify-content: space-between;
+    column-gap: 2rem;
+    align-items: start;
+}
+
+#id_settingspersonalizationcontainer.collapse.show > .fitem {
+    grid-column: 1;
+}
+
+#block-mytutor-ai-personalization-preview {
+    display: none;
+}
+
+#id_settingspersonalizationcontainer.collapse.show > #block-mytutor-ai-personalization-preview {
+    display: block;
+    grid-column: 2;
+    grid-row: 1 / span 20;
+    align-self: start;
+    position: sticky;
+    top: 1rem;
+}
+
+#block-mytutor-ai-personalization-preview .mytutor-ai-config-preview {
+    max-width: 300px;
+    margin-top: 0;
+    margin-left: auto;
+}
+
+@media (max-width: 1400px) {
+    #id_settingspersonalizationcontainer.collapse.show {
+        grid-template-columns: 1fr;
+        row-gap: 1rem;
+    }
+
+    #id_settingspersonalizationcontainer.collapse.show > #block-mytutor-ai-personalization-preview {
+        grid-column: 1;
+        grid-row: auto;
+        position: static;
+    }
+
+    #block-mytutor-ai-personalization-preview .mytutor-ai-config-preview {
+        margin-left: 0;
+    }
 }

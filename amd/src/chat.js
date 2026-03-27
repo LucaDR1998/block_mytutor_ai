@@ -29,6 +29,7 @@ const SELECTORS = {
     INPUT: '[data-action="mytutor-ai-question"]',
     MESSAGES_CONTAINER: '[data-region="mytutor-ai-messages"]',
     SEND_BUTTON: '[data-action="mytutor-ai-send"]',
+    QUICK_REPLY: '[data-action="mytutor-ai-quick-reply"]',
 };
 
 /**
@@ -179,5 +180,15 @@ export const init = (containerId, avatarUrl = '') => {
             e.preventDefault();
             submitQuestion();
         }
+    });
+
+    // Quick reply chip click.
+    messagesContainer.addEventListener('click', (e) => {
+        const btn = e.target.closest(SELECTORS.QUICK_REPLY);
+        if (!btn) {
+            return;
+        }
+        input.value = btn.textContent.trim();
+        submitQuestion();
     });
 };

@@ -117,11 +117,45 @@ $string['tutoravatar_custom'] = 'Custom image';
 $string['customavatar'] = 'Custom avatar image';
 $string['customavatar_help'] = 'Upload a custom image to use as the tutor avatar. This overrides the built-in avatar selection. Recommended size: 64×64 pixels. Max 512 KB.';
 $string['tutorname'] = 'Tutor display name';
-$string['tutorname_help'] = 'The name shown as the assistant label in chat messages. Leave empty to use the default.';
+$string['tutorname_help'] = 'The name shown as the assistant label in chat messages. Leave empty to use the default. Maximum 40 characters.';
 $string['welcomemessage'] = 'Welcome message';
-$string['welcomemessage_help'] = 'Greeting text shown in the chat when no messages have been sent yet. Leave empty to use the default.';
+$string['welcomemessage_help'] = 'Greeting text shown in the chat when no messages have been sent yet. Leave empty to use the default. Maximum 160 characters.';
 $string['welcomemessage_default'] = 'Ask a course question to start the conversation.';
 $string['chatpreview'] = 'Chat preview';
+$string['chatpreviewsidebarhint'] = 'Expand this section to display the live preview in the right column while you edit the chat settings above.';
 $string['invalidcolour'] = 'Invalid colour value "{$a}". Please enter a valid hex colour code (e.g. #0f6cbf).';
 $string['previewusermsg'] = 'Hello, can you help me?';
 $string['previewassistantmsg'] = 'Of course! Let me explain...';
+
+// Quick replies.
+$string['quickreplies'] = 'Quick replies';
+$string['quickreplies_help'] = 'Predefined questions shown as clickable buttons below the welcome message. Enter one question per line. Maximum 5 suggested replies, up to 40 characters each.';
+$string['quickrepliesmaxcount'] = 'You can add at most {$a} quick replies.';
+$string['quickrepliesmaxlength'] = 'Each quick reply can contain at most {$a} characters.';
+$string['quickreplies_placeholder'] = 'What topics does this course cover?';
+
+// Disclaimer.
+$string['disclaimer'] = 'Disclaimer';
+$string['disclaimer_help'] = 'Optional text shown below the chat input area. Use this to inform users that AI responses may not always be accurate. Maximum 180 characters.';
+$string['previewdisclaimer'] = 'AI responses may contain inaccuracies. Always verify important information.';
+
+// Tutor caption.
+$string['tutorcaption'] = 'Tutor caption';
+$string['tutorcaption_help'] = 'A short description shown below the tutor name in the chat header (e.g. "Your AI study assistant"). Only visible when an avatar is configured. Maximum 60 characters.';
+
+// Accent colour.
+$string['accent_color'] = 'Accent colour';
+$string['accent_color_help'] = 'Colour applied to the send button, focus rings and interactive elements. Enter a hex colour code (e.g. #0f6cbf). Leave empty to inherit from the Moodle theme.';
+
+// Theme presets.
+$string['themepreset'] = 'Theme preset';
+$string['themepreset_help'] = 'Apply a predefined colour scheme. Selecting a preset fills in the colour fields below which you can then adjust manually.';
+$string['themepreset_none'] = 'None';
+$string['themepreset_light'] = 'Light';
+$string['themepreset_dark'] = 'Dark';
+$string['themepreset_ocean'] = 'Ocean';
+$string['themepreset_warm'] = 'Warm';
+
+// Chat text colour.
+$string['chat_text_color'] = 'Chat text colour';
+$string['chat_text_color_help'] = 'Text colour used for the tutor name, assistant messages and general chat text. Enter a hex colour code (e.g. #162134). Leave empty to use the default dark text.';

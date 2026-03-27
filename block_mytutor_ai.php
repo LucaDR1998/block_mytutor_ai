@@ -64,6 +64,19 @@ class block_mytutor_ai extends block_base
     {
         return true;
     }
+
+    /**
+     * Hide the block title during normal course usage.
+     *
+     * Keep the header visible in editing mode so block controls remain accessible.
+     *
+     * @return bool
+     */
+    public function hide_header(): bool
+    {
+        return !$this->page->user_is_editing();
+    }
+
     /**
      * Generate the block content.
      *

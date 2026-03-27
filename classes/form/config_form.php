@@ -30,6 +30,24 @@ use block_mytutor_ai\local\provider\provider_catalog;
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class config_form extends \moodleform {
+    /** @var int Maximum number of characters allowed for the tutor name. */
+    private const TUTOR_NAME_MAX_LENGTH = 40;
+
+    /** @var int Maximum number of characters allowed for the tutor caption. */
+    private const TUTOR_CAPTION_MAX_LENGTH = 60;
+
+    /** @var int Maximum number of characters allowed for the welcome message. */
+    private const WELCOME_MESSAGE_MAX_LENGTH = 160;
+
+    /** @var int Maximum number of characters allowed for the disclaimer. */
+    private const DISCLAIMER_MAX_LENGTH = 180;
+
+    /** @var int Maximum number of quick reply suggestions. */
+    private const QUICK_REPLIES_MAX_COUNT = 5;
+
+    /** @var int Maximum number of characters allowed for a single quick reply. */
+    private const QUICK_REPLY_MAX_LENGTH = 40;
+
     /**
      * Form definition.
      */
@@ -135,6 +153,18 @@ class config_form extends \moodleform {
             get_string('settingspersonalization', 'block_mytutor_ai')
         );
 
+        // Theme preset selector.
+        $presets = [
+            '' => get_string('themepreset_none', 'block_mytutor_ai'),
+            'light' => get_string('themepreset_light', 'block_mytutor_ai'),
+            'dark' => get_string('themepreset_dark', 'block_mytutor_ai'),
+            'ocean' => get_string('themepreset_ocean', 'block_mytutor_ai'),
+            'warm' => get_string('themepreset_warm', 'block_mytutor_ai'),
+        ];
+        $mform->addElement('select', 'themepreset', get_string('themepreset', 'block_mytutor_ai'), $presets);
+        $mform->addHelpButton('themepreset', 'themepreset', 'block_mytutor_ai');
+        $mform->setType('themepreset', PARAM_ALPHA);
+
         $mform->addElement('text', 'chat_bg_color', get_string('chat_bg_color', 'block_mytutor_ai'));
         $mform->setType('chat_bg_color', PARAM_TEXT);
         $mform->setDefault('chat_bg_color', '#ffffff');
@@ -149,6 +179,18 @@ class config_form extends \moodleform {
         $mform->setType('assistant_msg_color', PARAM_TEXT);
         $mform->setDefault('assistant_msg_color', '#f7f9fc');
         $mform->addHelpButton('assistant_msg_color', 'assistant_msg_color', 'block_mytutor_ai');
+
+        // Accent colour.
+        $mform->addElement('text', 'accent_color', get_string('accent_color', 'block_mytutor_ai'));
+        $mform->setType('accent_color', PARAM_TEXT);
+        $mform->setDefault('accent_color', '');
+        $mform->addHelpButton('accent_color', 'accent_color', 'block_mytutor_ai');
+
+        // Chat text colour.
+        $mform->addElement('text', 'chat_text_color', get_string('chat_text_color', 'block_mytutor_ai'));
+        $mform->setType('chat_text_color', PARAM_TEXT);
+        $mform->setDefault('chat_text_color', '');
+        $mform->addHelpButton('chat_text_color', 'chat_text_color', 'block_mytutor_ai');
 
         // Built-in avatar selector.
         $avataroptions = ['' => get_string('tutoravatar_none', 'block_mytutor_ai')];
@@ -178,19 +220,93 @@ class config_form extends \moodleform {
         $mform->hideIf('customavatar', 'tutoravatar', 'neq', 'custom');
 
         // Tutor display name.
-        $mform->addElement('text', 'tutorname', get_string('tutorname', 'block_mytutor_ai'));
+        $mform->addElement(
+            'text',
+            'tutorname',
+            get_string('tutorname', 'block_mytutor_ai'),
+            ['size' => 40, 'maxlength' => self::TUTOR_NAME_MAX_LENGTH]
+        );
         $mform->setType('tutorname', PARAM_TEXT);
         $mform->addHelpButton('tutorname', 'tutorname', 'block_mytutor_ai');
+        $mform->addRule(
+            'tutorname',
+            get_string('maximumchars', '', self::TUTOR_NAME_MAX_LENGTH),
+            'maxlength',
+            self::TUTOR_NAME_MAX_LENGTH,
+            'client'
+        );
+
+        // Tutor caption.
+        $mform->addElement(
+            'text',
+            'tutorcaption',
+            get_string('tutorcaption', 'block_mytutor_ai'),
+            ['size' => 50, 'maxlength' => self::TUTOR_CAPTION_MAX_LENGTH]
+        );
+        $mform->setType('tutorcaption', PARAM_TEXT);
+        $mform->addHelpButton('tutorcaption', 'tutorcaption', 'block_mytutor_ai');
+        $mform->addRule(
+            'tutorcaption',
+            get_string('maximumchars', '', self::TUTOR_CAPTION_MAX_LENGTH),
+            'maxlength',
+            self::TUTOR_CAPTION_MAX_LENGTH,
+            'client'
+        );
 
         // Welcome message.
-        $mform->addElement('textarea', 'welcomemessage', get_string('welcomemessage', 'block_mytutor_ai'),
-            ['rows' => 3, 'cols' => 50]);
+        $mform->addElement(
+            'textarea',
+            'welcomemessage',
+            get_string('welcomemessage', 'block_mytutor_ai'),
+            ['rows' => 3, 'cols' => 50, 'maxlength' => self::WELCOME_MESSAGE_MAX_LENGTH]
+        );
         $mform->setType('welcomemessage', PARAM_TEXT);
         $mform->addHelpButton('welcomemessage', 'welcomemessage', 'block_mytutor_ai');
+        $mform->addRule(
+            'welcomemessage',
+            get_string('maximumchars', '', self::WELCOME_MESSAGE_MAX_LENGTH),
+            'maxlength',
+            self::WELCOME_MESSAGE_MAX_LENGTH,
+            'client'
+        );
+
+        // Quick replies.
+        $mform->addElement(
+            'textarea',
+            'quickreplies',
+            get_string('quickreplies', 'block_mytutor_ai'),
+            ['rows' => 5, 'cols' => 50]
+        );
+        $mform->setType('quickreplies', PARAM_TEXT);
+        $mform->addHelpButton('quickreplies', 'quickreplies', 'block_mytutor_ai');
+
+        // Disclaimer.
+        $mform->addElement(
+            'textarea',
+            'disclaimer',
+            get_string('disclaimer', 'block_mytutor_ai'),
+            ['rows' => 3, 'cols' => 50, 'maxlength' => self::DISCLAIMER_MAX_LENGTH]
+        );
+        $mform->setType('disclaimer', PARAM_TEXT);
+        $mform->addHelpButton('disclaimer', 'disclaimer', 'block_mytutor_ai');
+        $mform->addRule(
+            'disclaimer',
+            get_string('maximumchars', '', self::DISCLAIMER_MAX_LENGTH),
+            'maxlength',
+            self::DISCLAIMER_MAX_LENGTH,
+            'client'
+        );
 
         // Live preview panel.
         $previewhtml = $this->get_preview_html();
-        $mform->addElement('static', 'chatpreview', get_string('chatpreview', 'block_mytutor_ai'), $previewhtml);
+        $mform->addElement(
+            'html',
+            \html_writer::div(
+                $previewhtml,
+                'block-mytutor-ai-personalization-preview',
+                ['id' => 'block-mytutor-ai-personalization-preview']
+            )
+        );
 
         $this->add_action_buttons();
     }
@@ -204,7 +320,7 @@ class config_form extends \moodleform {
      */
     public function validation($data, $files): array {
         $errors = parent::validation($data, $files);
-        $colorfields = ['chat_bg_color', 'user_msg_color', 'assistant_msg_color'];
+        $colorfields = ['chat_bg_color', 'user_msg_color', 'assistant_msg_color', 'accent_color', 'chat_text_color'];
 
         foreach ($colorfields as $field) {
             if (!empty($data[$field]) && !preg_match('/^#([0-9a-fA-F]{3}){1,2}$/', $data[$field])) {
@@ -212,7 +328,52 @@ class config_form extends \moodleform {
             }
         }
 
+        $this->validate_text_max_length($errors, $data, 'tutorname', self::TUTOR_NAME_MAX_LENGTH);
+        $this->validate_text_max_length($errors, $data, 'tutorcaption', self::TUTOR_CAPTION_MAX_LENGTH);
+        $this->validate_text_max_length($errors, $data, 'welcomemessage', self::WELCOME_MESSAGE_MAX_LENGTH);
+        $this->validate_text_max_length($errors, $data, 'disclaimer', self::DISCLAIMER_MAX_LENGTH);
+
+        $quickreplies = preg_split('/\R/u', (string) ($data['quickreplies'] ?? ''));
+        $quickreplies = array_values(array_filter(array_map('trim', $quickreplies), static function(string $line): bool {
+            return $line !== '';
+        }));
+
+        if (count($quickreplies) > self::QUICK_REPLIES_MAX_COUNT) {
+            $errors['quickreplies'] = get_string(
+                'quickrepliesmaxcount',
+                'block_mytutor_ai',
+                self::QUICK_REPLIES_MAX_COUNT
+            );
+        } else {
+            foreach ($quickreplies as $reply) {
+                if (\core_text::strlen($reply) > self::QUICK_REPLY_MAX_LENGTH) {
+                    $errors['quickreplies'] = get_string(
+                        'quickrepliesmaxlength',
+                        'block_mytutor_ai',
+                        self::QUICK_REPLY_MAX_LENGTH
+                    );
+                    break;
+                }
+            }
+        }
+
         return $errors;
+    }
+
+    /**
+     * Validate a text field maximum length.
+     *
+     * @param array $errors Current validation errors.
+     * @param array $data Submitted data.
+     * @param string $field Field name.
+     * @param int $maxlength Maximum allowed characters.
+     * @return void
+     */
+    private function validate_text_max_length(array &$errors, array $data, string $field, int $maxlength): void {
+        $value = trim((string) ($data[$field] ?? ''));
+        if (\core_text::strlen($value) > $maxlength) {
+            $errors[$field] = get_string('maximumchars', '', $maxlength);
+        }
     }
 
     /**

@@ -42,7 +42,14 @@
         "usermsgcolor": "#0f6cbf",
         "assistantmsgcolor": "#f7f9fc",
         "tutoravatarurl": "",
-        "hastutoravatar": false
+        "hastutoravatar": false,
+        "accentcolor": "",
+        "tutorcaption": "",
+        "hastutorcaption": false,
+        "hasdisclaimer": false,
+        "disclaimer": "",
+        "hasquickreplies": false,
+        "quickreplies": []
     }
 }}
 <div id="{{uniqid}}"
@@ -54,31 +61,59 @@
      data-thinking-text="{{thinkingtext}}"
      data-error-text="{{errortext}}"
      {{#hastutoravatar}}data-tutor-avatar="{{tutoravatarurl}}"{{/hastutoravatar}}
-     style="{{#chatbgcolor}}--mytutor-chat-bg: {{chatbgcolor}};{{/chatbgcolor}} {{#usermsgcolor}}--mytutor-user-bg: {{usermsgcolor}};{{/usermsgcolor}} {{#assistantmsgcolor}}--mytutor-assistant-bg: {{assistantmsgcolor}};{{/assistantmsgcolor}}">
+     style="{{#chatbgcolor}}--mytutor-chat-bg: {{chatbgcolor}};{{/chatbgcolor}} {{#usermsgcolor}}--mytutor-user-bg: {{usermsgcolor}};{{/usermsgcolor}} {{#assistantmsgcolor}}--mytutor-assistant-bg: {{assistantmsgcolor}};{{/assistantmsgcolor}} {{#accentcolor}}--mytutor-accent: {{accentcolor}};{{/accentcolor}} {{#chattextcolor}}--mytutor-chat-text: {{chattextcolor}};{{/chattextcolor}}">
     {{#isready}}
         {{#hastutoravatar}}
         <div class="mytutor-ai-header">
             <img class="mytutor-ai-header-avatar"
                  src="{{tutoravatarurl}}"
                  alt="{{assistantlabel}}" />
-            <span class="mytutor-ai-header-name">{{assistantlabel}}</span>
+            <div class="mytutor-ai-header-info">
+                <span class="mytutor-ai-header-name">{{assistantlabel}}</span>
+                {{#hastutorcaption}}
+                <span class="mytutor-ai-header-caption">{{tutorcaption}}</span>
+                {{/hastutorcaption}}
+            </div>
         </div>
         {{/hastutoravatar}}
         <div data-region="mytutor-ai-messages" class="mytutor-ai-messages">
             <div data-region="mytutor-ai-empty" class="mytutor-ai-empty">
                 {{emptyconversation}}
+                {{#hasquickreplies}}
+                <div class="mytutor-ai-quick-replies" data-region="mytutor-ai-quick-replies">
+                    {{#quickreplies}}
+                    <button type="button" class="mytutor-ai-quick-reply" data-action="mytutor-ai-quick-reply">{{text}}</button>
+                    {{/quickreplies}}
+                </div>
+                {{/hasquickreplies}}
             </div>
         </div>
         <div data-region="mytutor-ai-input" class="mytutor-ai-input">
-            <textarea data-action="mytutor-ai-question"
-                      class="form-control"
-                      placeholder="{{chatplaceholder}}"
-                      rows="2"></textarea>
-            <button data-action="mytutor-ai-send"
-                    class="btn btn-primary mt-2 align-self-end">
-                {{sendbutton}}
-            </button>
+            <div class="mytutor-ai-composer">
+                <textarea data-action="mytutor-ai-question"
+                          class="form-control mytutor-ai-composer-textarea"
+                          placeholder="{{chatplaceholder}}"
+                          rows="3"></textarea>
+                <div class="mytutor-ai-composer-actions">
+                    <button data-action="mytutor-ai-send"
+                            class="mytutor-ai-send-btn"
+                            aria-label="{{sendbutton}}"
+                            title="{{sendbutton}}">
+                        <span class="mytutor-ai-send-btn-icon" aria-hidden="true">
+                            <svg viewBox="0 0 20 20" focusable="false">
+                                <path d="M10 14V6"></path>
+                                <path d="M6.5 9.5L10 6L13.5 9.5"></path>
+                            </svg>
+                        </span>
+                    </button>
+                </div>
+            </div>
         </div>
+        {{#hasdisclaimer}}
+        <div class="mytutor-ai-disclaimer">
+            {{{disclaimer}}}
+        </div>
+        {{/hasdisclaimer}}
     {{/isready}}
 
     {{^isready}}

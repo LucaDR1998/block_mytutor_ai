@@ -36,6 +36,24 @@ use templatable;
  * Chat renderable for the chat interface container.
  */
 class chat implements renderable, templatable {
+    /** @var int Maximum number of characters allowed for the tutor name. */
+    private const TUTOR_NAME_MAX_LENGTH = 40;
+
+    /** @var int Maximum number of characters allowed for the tutor caption. */
+    private const TUTOR_CAPTION_MAX_LENGTH = 60;
+
+    /** @var int Maximum number of characters allowed for the welcome message. */
+    private const WELCOME_MESSAGE_MAX_LENGTH = 160;
+
+    /** @var int Maximum number of characters allowed for the disclaimer. */
+    private const DISCLAIMER_MAX_LENGTH = 180;
+
+    /** @var int Maximum number of quick replies. */
+    private const QUICK_REPLIES_MAX_COUNT = 5;
+
+    /** @var int Maximum number of characters allowed per quick reply. */
+    private const QUICK_REPLY_MAX_LENGTH = 40;
+
     /** @var int The course ID. */
     private int $courseid;
 
@@ -71,8 +89,26 @@ class chat implements renderable, templatable {
         $chatbgcolor = get_config($component, 'chat_bg_color') ?: '';
         $usermsgcolor = get_config($component, 'user_msg_color') ?: '';
         $assistantmsgcolor = get_config($component, 'assistant_msg_color') ?: '';
-        $tutorname = get_config($component, 'tutorname') ?: '';
-        $welcomemessage = get_config($component, 'welcomemessage') ?: '';
+        $tutorname = self::limit_text((string) (get_config($component, 'tutorname') ?: ''), self::TUTOR_NAME_MAX_LENGTH);
+        $tutorcaption = self::limit_text(
+            (string) (get_config($component, 'tutorcaption') ?: ''),
+            self::TUTOR_CAPTION_MAX_LENGTH
+        );
+        $accentcolor = get_config($component, 'accent_color') ?: '';
+        $chattextcolor = get_config($component, 'chat_text_color') ?: '';
+        $welcomemessage = self::limit_text(
+            (string) (get_config($component, 'welcomemessage') ?: ''),
+            self::WELCOME_MESSAGE_MAX_LENGTH
+        );
+        $disclaimer = self::limit_text((string) (get_config($component, 'disclaimer') ?: ''), self::DISCLAIMER_MAX_LENGTH);
+        $quickrepliesraw = get_config($component, 'quickreplies') ?: '';
+        $quickreplies = [];
+        if (!empty($quickrepliesraw)) {
+            $lines = array_filter(array_map('trim', explode("\n", $quickrepliesraw)));
+            $quickreplies = array_map(function($line) {
+                return ['text' => s(self::limit_text($line, self::QUICK_REPLY_MAX_LENGTH))];
+            }, array_slice($lines, 0, self::QUICK_REPLIES_MAX_COUNT));
+        }
 
         if ($canchat) {
             $PAGE->requires->js_call_amd('block_mytutor_ai/chat', 'init', [$this->uniqid, $tutoravatarurl]);
@@ -112,7 +148,31 @@ class chat implements renderable, templatable {
             'assistantmsgcolor' => $assistantmsgcolor,
             'tutoravatarurl' => $tutoravatarurl,
             'hastutoravatar' => !empty($tutoravatarurl),
+            'tutorcaption' => $tutorcaption,
+            'hastutorcaption' => !empty($tutorcaption) && !empty($tutoravatarurl),
+            'accentcolor' => $accentcolor,
+            'chattextcolor' => $chattextcolor,
+            'disclaimer' => $disclaimer ? format_text($disclaimer, FORMAT_PLAIN) : '',
+            'hasdisclaimer' => !empty($disclaimer),
+            'quickreplies' => $quickreplies,
+            'hasquickreplies' => !empty($quickreplies),
         ];
+    }
+
+    /**
+     * Limit a text to the configured maximum length.
+     *
+     * @param string $text Source text.
+     * @param int $maxlength Maximum allowed characters.
+     * @return string
+     */
+    private static function limit_text(string $text, int $maxlength): string {
+        $text = trim($text);
+        if (\core_text::strlen($text) <= $maxlength) {
+            return $text;
+        }
+
+        return rtrim(\core_text::substr($text, 0, $maxlength - 1)) . '…';
     }
 
     /**
